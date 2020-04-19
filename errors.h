@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Types of errors
- * @LastEditTime: 2020-04-19 12:00:12
+ * @LastEditTime: 2020-04-19 13:03:02
  * @Date: 2020-04-18 23:04:27
  */
 
@@ -26,7 +26,7 @@ struct Error
     friend std::ostream &operator<<(std::ostream &out, Error &obj);
 };
 
-Error errors[NUM_ERRORS] = {
-    {UNDEFINED_TYPE, "Undefined type."},
-    {UNKNOWN_ERROR, "Unknown exception."},
-};
+Error unknow_error = {UNKNOWN_ERROR, "Unknown exception."};
+Error undefined_type_error = {UNDEFINED_TYPE, "Undefined type."};
+
+void CatchError(ErrorTypes err);

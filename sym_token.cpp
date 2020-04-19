@@ -2,11 +2,13 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Symbolic Token
- * @LastEditTime: 2020-04-19 10:09:07
+ * @LastEditTime: 2020-04-19 16:23:52
  * @Date: 2020-04-18 17:50:10
  */
 
+#ifndef INC_SYM_TOKEN
 #include "sym_token.h"
+#endif
 
 SymToken::SymToken()
 {

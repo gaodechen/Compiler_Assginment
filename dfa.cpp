@@ -2,12 +2,18 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Deterministic Finite Automaton
- * @LastEditTime: 2020-04-19 11:40:46
+ * @LastEditTime: 2020-04-19 17:23:23
  * @Date: 2020-04-18 17:20:34
  */
 
 
 #include "dfa.h"
+
+void DFA::FillStatesTypes(const int *states, int len, int type)
+{
+    for (int i = 0; i < len; i++)
+        m_states_types[states[i]] = type;
+}
 
 // fill states for ASCII characters
 void DFA::FillTransState(DFAState src_state, DFAState dst_state)
@@ -36,8 +42,7 @@ void DFA::FillTransState(DFAState src_state, DFAState dst_state, const char &ch)
 
 void DFA::InitTransMat()
 {
-    memset(m_mat, -1, sizeof(m_mat));
-
+    std::fill(m_mat[0], m_mat[0] + DFA_NUM_STATES * DFA_VOCAB_SIZE, ILLEGAL_STATE);
     // State 0
     FillTransState(0, 0, filter_ch);
     FillTransState(0, 1, lower_ch);
@@ -47,25 +52,23 @@ void DFA::InitTransMat()
         FillTransState(0, i, operator_ch[i - 5]);
 
     // State 1
-    for (int i = 0; i < DFA_VOCAB_SIZE; i++)
-        FillTransState(1, 2, i);
-
+    FillTransState(1, 2);
     FillTransState(1, 1, lower_ch);
     FillTransState(1, 1, upper_ch);
     FillTransState(1, 1, number_ch);
 
     // State 3
-    FillTransState(3, 3, number_ch);
     FillTransState(3, 4);
+    FillTransState(3, 3, number_ch);
 
     // State 10
+    FillTransState(10, 20);
     FillTransState(10, 18, '>');
     FillTransState(10, 19, '=');
-    FillTransState(10, 20);
 
     // State 11
+    FillTransState(11, 22);
     FillTransState(11, 21, '=');
-    FillTransState(14, 22);
 
     // State 12
     FillTransState(12, 23, '=');
@@ -74,16 +77,9 @@ void DFA::InitTransMat()
 // Initialize types of states
 void DFA::InitStatesTypes()
 {
-    for (int i = 0; i < DFA_NUM_STATES; i++)
-        m_states_types[i] = TERMINAL_STATE;
-
-    int non_terminal_states_len = sizeof(non_terminal_states) / sizeof(int);
-    for (int i = 0; i < non_terminal_states_len; i++)
-        m_states_types[non_terminal_states[i]] = NON_TERMINAL_STATE;
-
-    int backtrace_states_len = sizeof(backtrace_states) / sizeof(int);
-    for (int i = 0; i < backtrace_states_len; i++)
-        m_states_types[backtrace_states[i]] = BACKTRACE_STATE;
+    FillStatesTypes(terminal_states, sizeof(terminal_states) / sizeof(int), TERMINAL_STATE);
+    FillStatesTypes(non_terminal_states, sizeof(non_terminal_states) / sizeof(int), NON_TERMINAL_STATE);
+    FillStatesTypes(backtrace_states, sizeof(backtrace_states) / sizeof(int), BACKTRACE_STATE);
 }
 
 // Initialize DFA

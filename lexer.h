@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: File Content
- * @LastEditTime: 2020-04-19 10:01:03
+ * @LastEditTime: 2020-04-19 15:54:36
  * @Date: 2020-04-18 15:51:42
  */
 
@@ -31,11 +31,6 @@ class Lexer
 private:
     // Map vocabulary words to SymToken(int, string)
     std::map<std::string, SymToken> m_words_mapping;
-
-    // Table of interpreted symbols
-    std::map<std::string, int> m_symbols_table;
-    // Table of constants
-    std::map<std::string, int> m_constants_table;
 
     // Map token to SymToken struct
     SymToken MapToken(std::string token, int dfaState);

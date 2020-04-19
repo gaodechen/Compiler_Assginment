@@ -2,11 +2,13 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Deterministic Finite Automaton
- * @LastEditTime: 2020-04-19 10:47:04
+ * @LastEditTime: 2020-04-19 17:19:39
  * @Date: 2020-04-18 17:20:31
  */
 
 #include <map>
+#include <bitset>
+#include <iostream>
 #include <string>
 #include <cstring>
 #include <algorithm>
@@ -41,6 +43,7 @@ private:
     // Current state of DFA
     DFAState curState;
 
+    void FillStatesTypes(const int *states, int len, int type);
     // fill states for ASCII characters
     void FillTransState(DFAState src_state, DFAState dst_state);
     // fill states for characters in ch_table
