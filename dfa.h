@@ -2,20 +2,26 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Deterministic Finite Automaton
- * @LastEditTime: 2020-04-19 00:29:38
+ * @LastEditTime: 2020-04-19 10:47:04
  * @Date: 2020-04-18 17:20:31
  */
 
 #include <map>
 #include <string>
+#include <cstring>
+#include <algorithm>
+
+#ifndef INC_PL0_DEF
+#include "pl0_def.h"
+#endif
 
 #ifndef INC_SYM_TOKEN
 #include "sym_token.h"
-#define INC_SYM_TOKEN
 #endif
 
 typedef int DFAState;
 
+// Class all states into 3 types
 enum StateTypes {
     // current character should put into next token
     BACKTRACE_STATE,
@@ -28,18 +34,12 @@ enum StateTypes {
 class DFA
 {
 private:
-    // Maximum number of states
-    const static int m_NUM_STATES = 128;
-    // ASCII maximum index
-    const static int m_VOCAB_SIZE = 128;
     // [i, j] means positioned at i and get j as input
-    int m_mat[m_NUM_STATES][m_VOCAB_SIZE];
+    int m_mat[DFA_NUM_STATES][DFA_VOCAB_SIZE];
     // Types of states
-    int m_states_types[m_NUM_STATES];
+    int m_states_types[DFA_NUM_STATES];
     // Current state of DFA
     DFAState curState;
-    // Map string token to vocabulary type
-    std::map<std::string, SymToken> m_reserved_words_mapping;
 
     // fill states for ASCII characters
     void FillTransState(DFAState src_state, DFAState dst_state);
@@ -65,6 +65,9 @@ public:
     // Get type of given state
     int GetStateType(const int &state);
 
+    // Set state
+    void SetState(const int &state);
+
     // Move to the next state with ch
-    int SetState(const char &ch);
+    int GotoNextState(const char &ch);
 };

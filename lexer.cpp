@@ -2,46 +2,31 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Lexical Analysis for PL/0
- * @LastEditTime: 2020-04-19 00:35:20
+ * @LastEditTime: 2020-04-19 11:55:18
  * @Date: 2020-04-15 23:02:24
  */
 
-#include <iostream>
-#include <cstdio>
-#include <cstring>
-#include <algorithm>
-#include <vector>
-#include <string>
-
 #include "lexer.h"
-#include "dfa.h"
-#include "pl0_def.h"
-#include "file_reader.h"
-#include "utils.h"
-
-#ifndef INC_SYM_TOKEN
-#include "sym_token.h"
-#define INC_SYM_TOKEN
-#endif
+#include "errors.h"
 
 void Lexer::Init()
 {
-    for (int i = 0; i < m_VOCAB_SIZE; ++i)
+    for (int i = 0; i < VOCAB_SIZE; ++i)
     {
         m_words_mapping[vocab_words[i]] = SymToken(i, vocab_words_types[i]);
     }
 }
 
 // Get mapping results
-SymToken Lexer::MapToken(std::string token, int dfaState)
+SymToken Lexer::MapToken(std::string token, DFAState dfaState)
 {
     if (m_words_mapping.count(token))
         return m_words_mapping[token];
-    else if (dfaState == 2)
-        return SymToken(0, "identifier");
-    else
-        return SymToken(0, "number");
-    return SymToken(0, "undefined");
+    if (dfaState == IDENTIFIER_STATE)
+        return SymToken(IDENTIFIER_VOCAB);
+    if (dfaState == NUMBER_STATE)
+        return SymToken(NUMBER_VOCAB);
+    return SymToken(ILLEGAL_VOCAB);
 }
 
 void InsertToken(std::map<std::string, int> &table, const std::string &token)
@@ -59,21 +44,27 @@ LexTable Lexer::Analyze(const std::string &filepath)
     std::string token = "";
 
     file_reader.FilterCh(ch);
+    dfa.SetState(NON_STATE);
 
     while (~dfa.GetNextState(ch))
     {
+        // There would be one last token before '\0'
         if (file_reader.IsEOF())
+        {
             ch = '\0';
-        int curState = dfa.SetState(ch);
+        }
+        DFAState curState = dfa.GotoNextState(ch);
         int curStateType = dfa.GetStateType(curState);
+        // Token should be terminal added ch
         if (curStateType == TERMINAL_STATE)
         {
-            token = token + std::string(1, ch);
+            token = Concat(token, ch);
             file_reader.FilterCh(ch);
-            dfa.SetState(0);
+            dfa.SetState(NON_STATE);
             token = "";
         }
-        else if (curStateType != NON_TERMINAL_STATE)
+        // Continue to read character
+        else if (curStateType == NON_TERMINAL_STATE)
         {
             token = Concat(token, ch);
             file_reader.GetChar(ch);
@@ -81,19 +72,26 @@ LexTable Lexer::Analyze(const std::string &filepath)
         // Continue the analysis process with next character
         else if (curStateType == BACKTRACE_STATE)
         {
-            lex_ret.AddItem(token, MapToken(token, curState).GetType());
+            SymToken sym_token = MapToken(token, curState);
+            lex_ret.AddItem(token, sym_token.GetType());
             token = "";
-            dfa.SetState(0);
+            dfa.SetState(NON_STATE);
             if (IsBlank(ch))
+            {
                 file_reader.FilterCh(ch);
+            }
         }
+        // An illegal state
         else
         {
             std::cout << "error!" << std::endl;
             break;
         }
+        // Finish analysis
         if (ch == '\0')
+        {
             break;
+        }
     }
     return lex_ret;
 }

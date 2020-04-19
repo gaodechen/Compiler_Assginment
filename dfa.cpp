@@ -2,25 +2,17 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Deterministic Finite Automaton
- * @LastEditTime: 2020-04-19 00:29:48
+ * @LastEditTime: 2020-04-19 11:40:46
  * @Date: 2020-04-18 17:20:34
  */
 
-#include <cstring>
-#include <algorithm>
 
 #include "dfa.h"
-#include "pl0_def.h"
-
-#ifndef INC_SYM_TOKEN
-#include "sym_token.h"
-#define INC_SYM_TOKEN
-#endif
 
 // fill states for ASCII characters
 void DFA::FillTransState(DFAState src_state, DFAState dst_state)
 {
-    for (int i = 0; i < m_VOCAB_SIZE; i++)
+    for (int i = 0; i < DFA_VOCAB_SIZE; i++)
     {
         m_mat[src_state][i] = dst_state;
     }
@@ -55,7 +47,7 @@ void DFA::InitTransMat()
         FillTransState(0, i, operator_ch[i - 5]);
 
     // State 1
-    for (int i = 0; i < m_VOCAB_SIZE; i++)
+    for (int i = 0; i < DFA_VOCAB_SIZE; i++)
         FillTransState(1, 2, i);
 
     FillTransState(1, 1, lower_ch);
@@ -79,26 +71,27 @@ void DFA::InitTransMat()
     FillTransState(12, 23, '=');
 }
 
+// Initialize types of states
 void DFA::InitStatesTypes()
 {
-    for (int i = 0; i < m_NUM_STATES; i++)
+    for (int i = 0; i < DFA_NUM_STATES; i++)
         m_states_types[i] = TERMINAL_STATE;
 
-    int non_terminal_states[] = {0, 1, 3, 10, 11, 12};
     int non_terminal_states_len = sizeof(non_terminal_states) / sizeof(int);
     for (int i = 0; i < non_terminal_states_len; i++)
         m_states_types[non_terminal_states[i]] = NON_TERMINAL_STATE;
 
-    int backtrace_states[] = {2, 4, 20, 22};
     int backtrace_states_len = sizeof(backtrace_states) / sizeof(int);
     for (int i = 0; i < backtrace_states_len; i++)
-        m_states_types[non_terminal_states[i]] = BACKTRACE_STATE;
+        m_states_types[backtrace_states[i]] = BACKTRACE_STATE;
 }
 
+// Initialize DFA
 DFA::DFA()
 {
     InitTransMat();
     InitStatesTypes();
+    curState = NON_STATE;
 }
 
 // Get current state
@@ -119,8 +112,13 @@ int DFA::GetStateType(const int &state)
     return m_states_types[state];
 }
 
+void DFA::SetState(const int &state)
+{
+    curState = state;
+}
+
 // Move to the next state with ch
-int DFA::SetState(const char &ch)
+int DFA::GotoNextState(const char &ch)
 {
     curState = m_mat[curState][ch];
     return curState;

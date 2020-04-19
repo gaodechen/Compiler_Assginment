@@ -2,30 +2,33 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: File Content
- * @LastEditTime: 2020-04-19 00:35:51
+ * @LastEditTime: 2020-04-19 10:01:03
  * @Date: 2020-04-18 15:51:42
  */
 
-#include <map>
-#include <string>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
 #include <vector>
+#include <string>
+
+#include "dfa.h"
+#include "file_reader.h"
+#include "lex_table.h"
+#include "utils.h"
+
+#ifndef INC_PL0_DEF
+#include "pl0_def.h"
+#endif
 
 #ifndef INC_SYM_TOKEN
 #include "sym_token.h"
-#define INC_SYM_TOKEN
 #endif
-
-#include "lex_table.h"
 
 class Lexer
 {
 private:
-    // Vocabulary size for PL/0
-    const static int m_VOCAB_SIZE = 29;
-    // Vocabulary words of PL/0
-    const static std::string m_vocab_words[m_VOCAB_SIZE];
-    // Corresponding types for vocabulary words
-    const static std::string m_vocab_words_types[m_VOCAB_SIZE];
     // Map vocabulary words to SymToken(int, string)
     std::map<std::string, SymToken> m_words_mapping;
 
