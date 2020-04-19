@@ -14,5 +14,3 @@ bool IsLetter(const char &ch);
 bool IsDigital(const char &ch);
 
 bool IsBlank(const char &ch);
-
-std::string Concat(const std::string &str, const char &ch);

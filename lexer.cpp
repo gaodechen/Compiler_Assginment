@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Lexical Analysis for PL/0
- * @LastEditTime: 2020-04-19 16:27:39
+ * @LastEditTime: 2020-04-19 18:07:42
  * @Date: 2020-04-15 23:02:24
  */
 
@@ -59,7 +59,7 @@ LexTable Lexer::Analyze(const std::string &filepath)
         // Token should be terminal added ch
         if (curStateType == TERMINAL_STATE)
         {
-            token = Concat(token, ch);
+            token = token + std::string(1, ch);
             lex_ret.AddItem(token, MapToken(token, curState));
             token = "";
             dfa.SetState(NON_STATE);
@@ -79,15 +79,8 @@ LexTable Lexer::Analyze(const std::string &filepath)
         // Continue to read character
         else if (curStateType == NON_TERMINAL_STATE)
         {
-            token = Concat(token, ch);
+            token = token + std::string(1, ch);
             file_reader.GetChar(ch);
-        }
-        // An illegal state
-        else
-        {
-            // std::cout << undefined_type_error.err_msg << std::endl;
-            // err->Throw(UNDEFINED_TYPE);
-            break;
         }
         // Finish analysis
         if (ch == '\0')

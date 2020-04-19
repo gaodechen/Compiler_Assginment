@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: utils 
- * @LastEditTime: 2020-04-18 23:26:23
+ * @LastEditTime: 2020-04-19 18:07:17
  * @Date: 2020-04-18 16:48:48
  */
 
@@ -27,9 +27,4 @@ bool IsBlank(const char &ch)
     if (ch == ' ' || ch == '\n' || ch == '\r' || ch == '\t')
         return true;
     return false;
-}
-
-std::string Concat(const std::string &str, const char &ch)
-{
-    return str + std::string(1, ch);
 }
