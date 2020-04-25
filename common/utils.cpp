@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: utils 
- * @LastEditTime: 2020-04-19 18:07:17
+ * @LastEditTime: 2020-04-25 22:03:38
  * @Date: 2020-04-18 16:48:48
  */
 
@@ -27,4 +27,9 @@ bool IsBlank(const char &ch)
     if (ch == ' ' || ch == '\n' || ch == '\r' || ch == '\t')
         return true;
     return false;
+}
+
+int Str2Int(const std::string &str)
+{
+    return atoi(str.c_str());
 }

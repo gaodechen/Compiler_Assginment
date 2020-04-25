@@ -2,12 +2,12 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Deterministic Finite Automaton
- * @LastEditTime: 2020-04-19 17:23:23
+ * @LastEditTime: 2020-04-22 23:15:52
  * @Date: 2020-04-18 17:20:34
  */
 
 
-#include "dfa.h"
+#include "../lexer/dfa.h"
 
 void DFA::FillStatesTypes(const int *states, int len, int type)
 {

@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Deterministic Finite Automaton
- * @LastEditTime: 2020-04-19 17:19:39
+ * @LastEditTime: 2020-04-25 13:57:13
  * @Date: 2020-04-18 17:20:31
  */
 
@@ -13,12 +13,8 @@
 #include <cstring>
 #include <algorithm>
 
-#ifndef INC_PL0_DEF
-#include "pl0_def.h"
-#endif
-
-#ifndef INC_SYM_TOKEN
-#include "sym_token.h"
+#ifndef INC_DFA_MAP
+#include "../lexer/dfa_map.h"
 #endif
 
 typedef int DFAState;

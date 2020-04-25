@@ -2,12 +2,12 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: File Reader
- * @LastEditTime: 2020-04-18 23:55:49
+ * @LastEditTime: 2020-04-22 22:36:04
  * @Date: 2020-04-18 17:58:11
  */
 
 #include "file_reader.h"
-#include "utils.h"
+#include "../common/utils.h"
 
 FileReader::FileReader(const std::string &filepath)
 {

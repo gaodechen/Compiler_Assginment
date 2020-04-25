@@ -2,11 +2,12 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Entrance for PL/0 Compiler
- * @LastEditTime: 2020-04-19 11:46:09
+ * @LastEditTime: 2020-04-25 22:10:17
  * @Date: 2020-04-18 15:42:05
  */
 
-#include "lexer.h"
+#include "./lexer/lexer.h"
+#include "./parser/parser.h"
 
 int main(int argc, char **argv)
 {
@@ -24,13 +25,11 @@ int main(int argc, char **argv)
             file_path = std::string(argv[2]);
         }
     }
+    std::string full_path = dir_path + file_path + file_ext;
 
     Lexer lexer;
-    lexer.Init();
-    LexTable lex_ret = lexer.Analyze(dir_path + file_path + file_ext);
-
-    std::cout << lex_ret;
-
+    LexTable lex = lexer.Analyze(full_path);
+    Parser parser(&lex);
 
     return 0;
 }

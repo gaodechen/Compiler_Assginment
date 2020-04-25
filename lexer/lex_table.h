@@ -2,23 +2,30 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Lexical Table
- * @LastEditTime: 2020-04-19 16:26:35
+ * @LastEditTime: 2020-04-25 17:09:43
  * @Date: 2020-04-18 22:16:06
  */
+
+#define INC_LEX_TABLE
 
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "lex_table_item.h"
+#ifndef INC_LEX_ITEM
+#include "../lexer/lex_item.h"
+#endif
 
 class LexTable
 {
 private:
-    std::vector<LexTableItem> lex_table;
+    int m_buf_idx;
+    std::vector<LexItem> m_lex_table;
 
 public:
-    void AddItem(std::string _token, SymToken _sym_token);
+    LexTable();
+    void Append(std::string _token, int _type);
+    LexItem GetSymbol();
 
     friend std::ostream &operator<<(std::ostream &out, LexTable &obj);
 };
