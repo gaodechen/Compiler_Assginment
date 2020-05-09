@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Lexical Table
- * @LastEditTime: 2020-04-25 17:09:43
+ * @LastEditTime: 2020-04-28 21:29:37
  * @Date: 2020-04-18 22:16:06
  */
 
@@ -10,7 +10,6 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 
 #ifndef INC_LEX_ITEM
 #include "../lexer/lex_item.h"
@@ -19,13 +18,19 @@
 class LexTable
 {
 private:
+    static const int LEX_TABLE_SIZE = 1000;
+    int m_size;
     int m_buf_idx;
-    std::vector<LexItem> m_lex_table;
+    int m_lex_lines[LEX_TABLE_SIZE];
+    LexItem m_lex_table[LEX_TABLE_SIZE];
 
 public:
     LexTable();
-    void Append(std::string _token, int _type);
-    LexItem GetSymbol();
+    void Append(std::string _token, int _type, int line_num);
+    void GetLexLines(int index);
+    LexItem GetNextSymbol();
+    LexItem GetPrevSymbol();
+    int GetLineNum();
 
     friend std::ostream &operator<<(std::ostream &out, LexTable &obj);
 };

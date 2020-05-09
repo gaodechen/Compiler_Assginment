@@ -2,24 +2,15 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Symbols Table
- * @LastEditTime: 2020-04-25 22:13:52
+ * @LastEditTime: 2020-05-01 23:30:02
  * @Date: 2020-04-25 21:35:31
  */
 
 #include "sym_table.h"
 
-void SymTable::Append(Symbol symbol)
+SymTable::SymTable()
 {
-    sym_table.push_back(symbol);
-}
-
-void Insert(int idx, Symbol symbol)
-{
-}
-
-int SymTable::GetSize()
-{
-    return sym_table.size();
+    m_size = 0;
 }
 
 int SymTable::Find(std::string token, int src_idx, int dst_idx)
@@ -32,4 +23,21 @@ int SymTable::Find(std::string token, int src_idx, int dst_idx)
         }
     }
     return -1;
+}
+
+Symbol& SymTable::operator [] (const int &idx)
+{
+    if (idx > m_size)
+    {
+        m_size = idx;
+    }
+    return sym_table[idx];
+}
+
+std::ostream &operator<<(std::ostream &out, SymTable &obj)
+{
+    for (int i = 0; i <= obj.m_size; i++)
+    {
+        out << obj.sym_table[i];
+    }
 }

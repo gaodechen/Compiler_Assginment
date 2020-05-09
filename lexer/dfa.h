@@ -6,6 +6,8 @@
  * @Date: 2020-04-18 17:20:31
  */
 
+#define INC_DFA
+
 #include <map>
 #include <bitset>
 #include <iostream>

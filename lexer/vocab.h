@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Fundamental definitions for PL/0
- * @LastEditTime: 2020-04-25 22:22:03
+ * @LastEditTime: 2020-04-28 22:32:01
  * @Date: 2020-04-18 18:22:13
  */
 
@@ -54,15 +54,26 @@ struct VocabTypes {
         LOP_GEQ,
         LOP_EQL,
     };
+    // Used in lexer
     enum DataTypes {
         IDENTIFIER_DATA_TYPE = VOCAB_RESERVED_SIZE,
         CONST_DATA_TYPE,
     };
+    // Used in symbols table
     enum DefTypes {
         CONST_DEF_TYPE,
         VAR_DEF_TYPE,
         PROCEDURE_DEF_TYPE,
-    }
+    };
+
+    static const int VOCAB_DEF_SIZE = 3;
+    static const int VOCAB_TYPES_SIZE = 31;
+    static const int VOCAB_STR_LEN = 20;
+    static const int VOCAB_LOP_SIZE = 6;
+
+    static const char vocab_types[VOCAB_TYPES_SIZE][VOCAB_STR_LEN];
+    static const char m_def_str[VOCAB_DEF_SIZE][VOCAB_STR_LEN];
+    static const int m_list_LOP[VOCAB_LOP_SIZE];
 };
 
 class Vocab
@@ -70,7 +81,6 @@ class Vocab
 private:
     // vocabulary list
     std::string *m_vocab_words;
-    std::string *m_vocab_types;
     std::map<std::string, int> m_words_mapping;
 public:
     Vocab();

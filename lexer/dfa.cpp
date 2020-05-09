@@ -7,7 +7,9 @@
  */
 
 
+#ifndef INC_DFA
 #include "../lexer/dfa.h"
+#endif
 
 void DFA::FillStatesTypes(const int *states, int len, int type)
 {

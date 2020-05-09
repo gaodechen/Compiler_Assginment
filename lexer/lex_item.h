@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Lexical item in table
- * @LastEditTime: 2020-04-25 17:57:54
+ * @LastEditTime: 2020-04-28 22:21:03
  * @Date: 2020-04-18 22:16:10
  */
 
@@ -10,6 +10,10 @@
 
 #include <iostream>
 #include <string>
+
+#ifndef INC_VOCAB
+#include "../lexer/vocab.h"
+#endif
 
 class LexItem
 {

@@ -5,5 +5,6 @@ aux_source_directory(./common ALL_SRCS)
 aux_source_directory(./file_reader ALL_SRCS)
 aux_source_directory(./lexer ALL_SRCS)
 aux_source_directory(./parser ALL_SRCS)
+aux_source_directory(./machine ALL_SRCS)
 
 add_executable(Compiler main.cpp ${ALL_SRCS})

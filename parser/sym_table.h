@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Symbols Table
- * @LastEditTime: 2020-04-25 22:06:28
+ * @LastEditTime: 2020-04-26 17:24:44
  * @Date: 2020-04-25 21:35:25
  */
 
@@ -17,11 +17,13 @@
 class SymTable
 {
 private:
-    std::vector<Symbol> sym_table;
+    static const int TABLE_SIZE = 1000;
+    Symbol sym_table[TABLE_SIZE];
+    int m_size;
 
 public:
-    void Append(Symbol symbol);
-    void Insert(int idx, Symbol symbol);
-    int GetSize();
+    SymTable();
     int Find(std::string token, int src_idx, int dst_idx);
+    Symbol& operator [] (const int &idx);
+    friend std::ostream &operator<<(std::ostream &out, SymTable &obj);
 };

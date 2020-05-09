@@ -2,9 +2,11 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: File Content
- * @LastEditTime: 2020-04-25 17:22:01
+ * @LastEditTime: 2020-04-28 21:39:35
  * @Date: 2020-04-18 15:51:42
  */
+
+#define INC_LEXER
 
 #include <iostream>
 #include <cstdio>
@@ -13,13 +15,22 @@
 #include <vector>
 #include <string>
 
-#include "../lexer/dfa.h"
-#include "../lexer/lex_table.h"
 #include "../common/utils.h"
+
+#ifndef INC_FILE_READER
 #include "../file_reader/file_reader.h"
+#endif
 
 #ifndef INC_VOCAB
 #include "../lexer/vocab.h"
+#endif
+
+#ifndef INC_DFA
+#include "../lexer/dfa.h"
+#endif
+
+#ifndef INC_LEX_TABLE
+#include "../lexer/lex_table.h"
 #endif
 
 class Lexer

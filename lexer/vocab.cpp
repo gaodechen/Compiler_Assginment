@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Vocab Definition
- * @LastEditTime: 2020-04-25 17:31:35
+ * @LastEditTime: 2020-04-28 22:32:14
  * @Date: 2020-04-25 13:18:03
  */
 
@@ -43,7 +43,7 @@ std::string vocab_words[VOCAB_RESERVED_SIZE] = {
 };
 
 // tyeps for vocabulary list
-std::string vocab_types[VOCAB_RESERVED_SIZE] = {
+const char VocabTypes::vocab_types[VOCAB_TYPES_SIZE][VOCAB_STR_LEN] = {
     // used to control processing stream
     "cp_if",
     "cp_while",
@@ -79,12 +79,13 @@ std::string vocab_types[VOCAB_RESERVED_SIZE] = {
     "lop_gtr",
     "lop_geq",
     "lop_eql",
+    "identifier",
+    "constant",
 };
 
 Vocab::Vocab()
 {
     m_vocab_words = vocab_words;
-    m_vocab_types = vocab_types;
     for (int i = 0; i < VOCAB_RESERVED_SIZE; ++i)
     {
         m_words_mapping[m_vocab_words[i]] = i;
@@ -112,5 +113,21 @@ int Vocab::GetType(std::string str)
  */
 std::string Vocab::GetStrType(int type)
 {
-    return m_vocab_types[type];
+    return VocabTypes::vocab_types[type];
 }
+
+const char VocabTypes::m_def_str[VOCAB_DEF_SIZE][VOCAB_STR_LEN] = {
+    "const",
+    "var",
+    "procedure",
+};
+
+
+const int VocabTypes::m_list_LOP[VOCAB_LOP_SIZE] = {
+    LOP_NEQ,
+    LOP_LSS,
+    LOP_LEQ,
+    LOP_GTR,
+    LOP_GEQ,
+    LOP_EQL,
+};
