@@ -19,6 +19,11 @@ void Stack::Push(int e)
     m_buf[m_top++] = e;
 }
 
+void Stack::PushNull()
+{
+    m_top++;
+}
+
 int Stack::Top()
 {
     return m_buf[m_top - 1];
@@ -27,11 +32,6 @@ int Stack::Top()
 int Stack::TopIndex()
 {
     return m_top;
-}
-
-void Stack::MoveTop(int d)
-{
-    m_top += d;
 }
 
 int Stack::Pop()

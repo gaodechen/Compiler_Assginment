@@ -17,10 +17,10 @@ private:
 
 public:
     Stack();
-    void Push(int);
+    void Push(int e);
+    void PushNull();
     int Pop();
     int Top();
     int TopIndex();
-    void MoveTop(int);
     int& operator [] (const int &idx);
 };

@@ -32,8 +32,8 @@ private:
     int m_base;
     // Data stack
     Stack m_stack;
-    // Addr stack
-    Stack m_p_stack;
+    // Set true when program ends
+    bool m_terminal;
 
     // Push constants to top of stack
     void _LIT(const Instruction &ins);

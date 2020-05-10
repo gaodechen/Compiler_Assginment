@@ -15,6 +15,7 @@ Machine::Machine(InsTable _m_ins_table)
     m_pc = 1;
     m_base = 0;
     m_ins_table = _m_ins_table;
+    m_terminal = false;
     // Instruction pointers to functions
     m_ins_func[LIT_INS] = &Machine::_LIT;
     m_ins_func[LOD_INS] = &Machine::_LOD;
@@ -55,12 +56,10 @@ int &Machine::GetData(int base, int level, int offset)
 
 void Machine::Intepret()
 {
-    while (m_pc <= m_ins_table.GetPC())
+    while (!m_terminal)
     {
         Instruction ins = m_ins_table[m_pc++];
-        std::cout << ins;
         (this->*m_ins_func[ins.opt])(ins);
-        getchar();
     }
 }
 
@@ -103,8 +102,10 @@ void Machine::_CAL(const Instruction &ins)
 // Allocate spaces for called procedure
 void Machine::_INT(const Instruction &ins)
 {
-    m_p_stack.Push(m_stack.TopIndex());
-    m_stack.MoveTop(3);
+    for (int i = 0; i < ins.offset; i++)
+    {
+        m_stack.PushNull();
+    }
 }
 
 // Jump directly
@@ -124,8 +125,17 @@ void Machine::_JPC(const Instruction &ins)
 
 void Machine::_RET_OP(const Instruction &ins)
 {
-    m_pc = m_stack[m_base + RET_ADDR_OFFSET];
-    m_base = m_stack[m_base + DYNAMIC_LINK_OFFSET];
+    if (m_base == 0)
+    {
+        m_terminal = true;
+    }
+    else
+    {
+        // return to the breakpoint
+        m_pc = m_stack[m_base + RET_ADDR_OFFSET];
+        // redirect to the base addr of the outer process
+        m_base = m_stack[m_base + DYNAMIC_LINK_OFFSET];
+    }
 }
 
 void Machine::_ADD_OP(const Instruction &ins)
