@@ -10,7 +10,7 @@
 
 bool IsLetter(const char &ch)
 {
-    if ((ch >= 'a' && ch < 'z') || (ch >= 'A') && (ch <= 'Z'))
+    if ((ch >= 'a' && ch < 'z') || (ch >= 'A' && ch <= 'Z'))
         return true;
     return false;
 }

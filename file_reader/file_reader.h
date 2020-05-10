@@ -10,6 +10,11 @@
 
 #include <cstdio>
 #include <string>
+#include <fstream>
+
+#ifndef INC_UTILS
+#include "../common/utils.h"
+#endif
 
 class FileReader
 {
@@ -17,10 +22,13 @@ private:
     // Set true when file pointer points to the ending
     bool eof;
     int num_lines;
+    std::ifstream file_stm;
 public:
     FileReader(const std::string &filepath);
 
     ~FileReader();
+
+    void Close();
 
     // Read one character from file
     void GetChar(char &ch);

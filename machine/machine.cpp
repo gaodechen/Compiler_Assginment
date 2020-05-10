@@ -36,6 +36,7 @@ Machine::Machine(InsTable _m_ins_table)
     m_opt_func[NEQ_OP] = &Machine::_NEQ_OP;
     m_opt_func[GT_OP] = &Machine::_GT_OP;
     m_opt_func[GE_OP] = &Machine::_GE_OP;
+    m_opt_func[ODD_OP] = &Machine::_ODD_OP;
     m_opt_func[WRITE_LINE_OP] = &Machine::_WRITE_LINE_OP;
     m_opt_func[WRITE_OP] = &Machine::_WRITE_OP;
     m_opt_func[READ_OP] = &Machine::_READ_OP;
@@ -57,8 +58,9 @@ void Machine::Intepret()
     while (m_pc <= m_ins_table.GetPC())
     {
         Instruction ins = m_ins_table[m_pc++];
-        std::cout << ins << std::endl;
+        std::cout << ins;
         (this->*m_ins_func[ins.opt])(ins);
+        getchar();
     }
 }
 
@@ -77,16 +79,14 @@ void Machine::_LIT(const Instruction &ins)
 // Load value of one variable to the top of stack
 void Machine::_LOD(const Instruction &ins)
 {
-    int addr = GetData(m_base, ins.level, ins.offset);
-    int var = m_stack[addr];
+    int var = GetData(m_base, ins.level, ins.offset);
     m_stack.Push(var);
 }
 
 // Store the value of the top of stack into one variable
 void Machine::_STO(const Instruction &ins)
 {
-    int var = GetData(m_base, ins.level, ins.offset);
-    var = m_stack.Top();
+    GetData(m_base, ins.level, ins.offset) = m_stack.Top();
 }
 
 // Call procedure
@@ -113,7 +113,7 @@ void Machine::_JMP(const Instruction &ins)
     m_pc = ins.offset;
 }
 
-// Jump when the top of stack is not true
+// Jump when the top of stack is zero
 void Machine::_JPC(const Instruction &ins)
 {
     if (m_stack.Top() == 0)
@@ -196,6 +196,12 @@ void Machine::_GE_OP (const Instruction &ins)
     int rhs = m_stack.Pop();
     int lhs = m_stack.Pop();
     m_stack.Push(lhs >= rhs);
+}
+
+void Machine::_ODD_OP (const Instruction &ins)
+{
+    int var = m_stack.Pop();
+    m_stack.Push(var & 1);
 }
 
 void Machine::_WRITE_LINE_OP (const Instruction &ins)

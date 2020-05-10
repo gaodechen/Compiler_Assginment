@@ -63,6 +63,7 @@ private:
     void _NEQ_OP(const Instruction &ins);
     void _GT_OP (const Instruction &ins);
     void _GE_OP (const Instruction &ins);
+    void _ODD_OP (const Instruction &ins);
     void _WRITE_LINE_OP (const Instruction &ins);
     void _WRITE_OP (const Instruction &ins);
     void _READ_OP (const Instruction &ins);

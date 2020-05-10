@@ -37,6 +37,7 @@ enum OptCode
     NEQ_OP = 9,
     GT_OP = 10,
     GE_OP = 11,
+    ODD_OP = 12,
     WRITE_LINE_OP = 14,
     WRITE_OP = 15,
     READ_OP = 16,

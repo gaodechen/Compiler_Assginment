@@ -8,3 +8,7 @@ aux_source_directory(./parser ALL_SRCS)
 aux_source_directory(./machine ALL_SRCS)
 
 add_executable(Compiler main.cpp ${ALL_SRCS})
+
+set(CMAKE_BUILD_TYPE "debug")
+set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb")
+set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")

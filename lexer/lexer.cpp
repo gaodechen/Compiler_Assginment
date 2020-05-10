@@ -98,5 +98,6 @@ LexTable Lexer::Analyze(const std::string &filepath)
             break;
         }
     }
+    file_reader.Close();
     return lex_ret;
 }

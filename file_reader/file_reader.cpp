@@ -6,8 +6,6 @@
  * @Date: 2020-04-18 17:58:11
  */
 
-#include "../common/utils.h"
-
 #ifndef INC_FILE_READER
 #include "../file_reader/file_reader.h"
 #endif
@@ -15,17 +13,23 @@
 FileReader::FileReader(const std::string &filepath)
 {
     num_lines = 0;
-    freopen(filepath.c_str(), "r", stdin);
+    // freopen(filepath.c_str(), "r", stdin);
+    file_stm.open(filepath.c_str(), std::ios::in);
 }
 
 FileReader::~FileReader()
 {
-    fclose(stdin);
+    Close();
+}
+
+void FileReader::Close()
+{
+    file_stm.close();
 }
 
 void FileReader::GetChar(char &ch)
 {
-    eof = !(~scanf("%c", &ch));
+    eof = ((ch = file_stm.get()) == EOF);
     if (ch == '\n')
     {
         num_lines++;

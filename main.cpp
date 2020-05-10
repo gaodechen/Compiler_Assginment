@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 {
     bool exec = true;
     bool print_lex = false;
-    bool print_ins = true;
+    bool print_ins = false;
     std::string dir_path = "./test_data/";
     std::string file_path = "PL0_code0";
     std::string file_ext = ".in";

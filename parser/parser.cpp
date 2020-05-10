@@ -527,8 +527,9 @@ void Parser::_condition(int level, int index)
         // Check if odd or even
         GetNextSymbol();
         _expression(level, index);
-        m_ins_table.Generate(LIT_INS, 0, 0);
-        m_ins_table.Generate(OPR_INS, 0, NEQ_OP);
+        m_ins_table.Generate(OPR_INS, 0, ODD_OP);
+        m_ins_table.Generate(LIT_INS, 0, 1);
+        m_ins_table.Generate(OPR_INS, 0, EQ_OP);
     }
     else
     {
