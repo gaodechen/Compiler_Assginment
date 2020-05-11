@@ -11,7 +11,7 @@
 class Stack
 {
 private:
-    static const int STACK_SIZE = 1000;
+    static const int STACK_SIZE = 10000;
     int m_buf[STACK_SIZE];
     int m_top;
 

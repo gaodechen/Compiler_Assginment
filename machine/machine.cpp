@@ -85,14 +85,14 @@ void Machine::_LOD(const Instruction &ins)
 // Store the value of the top of stack into one variable
 void Machine::_STO(const Instruction &ins)
 {
-    GetData(m_base, ins.level, ins.offset) = m_stack.Top();
+    GetData(m_base, ins.level, ins.offset) = m_stack.Pop();
 }
 
 // Call procedure
 void Machine::_CAL(const Instruction &ins)
 {
     int top = m_stack.TopIndex();
-    m_stack[top + STATIC_LINK_OFFSET] = m_base;
+    m_stack[top + STATIC_LINK_OFFSET] = GetData(m_base, ins.level, ins.offset);
     m_stack[top + DYNAMIC_LINK_OFFSET] = m_base;
     m_stack[top + RET_ADDR_OFFSET] = m_pc;
     m_pc = ins.offset;
