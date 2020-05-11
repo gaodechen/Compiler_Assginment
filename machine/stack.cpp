@@ -24,11 +24,6 @@ void Stack::PushNull()
     m_top++;
 }
 
-int Stack::Top()
-{
-    return m_buf[m_top - 1];
-}
-
 int Stack::TopIndex()
 {
     return m_top;

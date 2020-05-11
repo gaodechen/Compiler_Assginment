@@ -376,9 +376,9 @@ void Parser::_write(int level, int index)
         GetNextSymbol();
         _expression(level, index);
         m_ins_table.Generate(OPR_INS, 0, WRITE_OP);
+        m_ins_table.Generate(OPR_INS, 0, WRITE_LINE_OP);
         SepChTest(VocabTypes::CH_COMMA, VocabTypes::CH_RPAREN);
     }
-    m_ins_table.Generate(OPR_INS, 0, WRITE_LINE_OP);
     GetNextSymbol();
     m_ast.Backward();
 }

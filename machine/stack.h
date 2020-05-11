@@ -20,7 +20,6 @@ public:
     void Push(int e);
     void PushNull();
     int Pop();
-    int Top();
     int TopIndex();
     int& operator [] (const int &idx);
 };

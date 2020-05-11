@@ -117,7 +117,7 @@ void Machine::_JMP(const Instruction &ins)
 // Jump when the top of stack is zero
 void Machine::_JPC(const Instruction &ins)
 {
-    if (m_stack.Top() == 0)
+    if (m_stack.Pop() == 0)
     {
         m_pc = ins.offset;
     }
@@ -221,7 +221,7 @@ void Machine::_WRITE_LINE_OP (const Instruction &ins)
 
 void Machine::_WRITE_OP (const Instruction &ins)
 {
-    std::cout << m_stack.Top();
+    std::cout << m_stack.Pop();
 }
 
 void Machine::_READ_OP (const Instruction &ins)

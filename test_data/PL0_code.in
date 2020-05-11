@@ -14,6 +14,8 @@ begin
   r := x;
   q := 0;
   w := y;
+  write(x, 0, y);
+  write(r, q, w);
   while w <= r do w := 2 * w;
   while w > y do
   begin
@@ -22,7 +24,7 @@ begin
     if w <= r then
     begin
       r := r - w;
-      q := q + 1
+      q := q + 1;
     end
   end
 end;
