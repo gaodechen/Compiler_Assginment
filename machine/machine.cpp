@@ -43,7 +43,7 @@ Machine::Machine(InsTable _m_ins_table)
     m_opt_func[READ_OP] = &Machine::_READ_OP;
 }
 
-int Machine::GetBase(int base, int level, int offset)
+int Machine::GetBase(int base, int level)
 {
     while (level)
     {
@@ -51,13 +51,13 @@ int Machine::GetBase(int base, int level, int offset)
         base = m_stack[base + STATIC_LINK_OFFSET];
         level--;
     }
-    return base + offset;
+    return base;
 }
 
 int &Machine::GetData(int base, int level, int offset)
 {
-    base = GetBase(base, level, offset);
-    return m_stack[base];
+    base = GetBase(base, level);
+    return m_stack[base + offset];
 }
 
 void Machine::Interpret()
@@ -98,7 +98,7 @@ void Machine::_STO(const Instruction &ins)
 void Machine::_CAL(const Instruction &ins)
 {
     int top = m_stack.TopIndex();
-    m_stack[top + STATIC_LINK_OFFSET] = GetData(m_base, ins.level, ins.offset);
+    m_stack[top + STATIC_LINK_OFFSET] = GetBase(m_base, ins.level);
     m_stack[top + DYNAMIC_LINK_OFFSET] = m_base;
     m_stack[top + RET_ADDR_OFFSET] = m_pc;
     m_pc = ins.offset;
@@ -131,17 +131,20 @@ void Machine::_JPC(const Instruction &ins)
 
 void Machine::_RET_OP(const Instruction &ins)
 {
-    if (m_base == 0)
+    if (m_base <= 0)
     {
         m_terminal = true;
+        return;
     }
-    else
+    while (m_stack.TopIndex() > m_base)
     {
-        // return to the breakpoint
-        m_pc = m_stack[m_base + RET_ADDR_OFFSET];
-        // redirect to the base addr of the outer process
-        m_base = m_stack[m_base + DYNAMIC_LINK_OFFSET];
+        m_stack.Pop();
     }
+    int top = m_stack.TopIndex();
+    // redirect to the base addr of the outer process
+    m_base = m_stack[top + DYNAMIC_LINK_OFFSET];
+    // return to the breakpoint
+    m_pc = m_stack[top + RET_ADDR_OFFSET];
 }
 
 void Machine::_ADD_OP(const Instruction &ins)

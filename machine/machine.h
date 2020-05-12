@@ -73,7 +73,7 @@ private:
 
 public:
     Machine(InsTable _m_ins_table);
-    int GetBase(int base, int level, int offset);
+    int GetBase(int base, int level);
     int &GetData(int base, int level, int offset);
     void Interpret();
 };
