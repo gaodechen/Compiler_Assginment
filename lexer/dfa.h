@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Deterministic Finite Automaton
- * @LastEditTime: 2020-04-25 13:57:13
+ * @LastEditTime: 2020-05-12 10:30:16
  * @Date: 2020-04-18 17:20:31
  */
 
@@ -39,7 +39,7 @@ private:
     // Types of states
     int m_states_types[DFA_NUM_STATES];
     // Current state of DFA
-    DFAState curState;
+    DFAState m_curState;
 
     void FillStatesTypes(const int *states, int len, int type);
     // fill states for ASCII characters

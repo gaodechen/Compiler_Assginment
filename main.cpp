@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Entrance for PL/0 Compiler
- * @LastEditTime: 2020-05-09 19:33:37
+ * @LastEditTime: 2020-05-12 10:26:29
  * @Date: 2020-04-18 15:42:05
  */
 
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
     if (exec)
     {
         Machine mac(ins);
-        mac.Intepret();
+        mac.Interpret();
     }
 
     return 0;

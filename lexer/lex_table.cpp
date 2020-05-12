@@ -44,6 +44,7 @@ std::ostream &operator<<(std::ostream &out, LexTable &obj)
     {
         out << obj.m_lex_table[i];
     }
+    return out;
 }
 
 int LexTable::GetLineNum()

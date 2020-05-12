@@ -54,7 +54,7 @@ int &Machine::GetData(int base, int level, int offset)
     return m_stack[base + offset];
 }
 
-void Machine::Intepret()
+void Machine::Interpret()
 {
     while (!m_terminal)
     {

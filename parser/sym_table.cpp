@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Symbols Table
- * @LastEditTime: 2020-05-01 23:30:02
+ * @LastEditTime: 2020-05-12 10:19:46
  * @Date: 2020-04-25 21:35:31
  */
 
@@ -40,4 +40,5 @@ std::ostream &operator<<(std::ostream &out, SymTable &obj)
     {
         out << obj.sym_table[i];
     }
+    return out;
 }

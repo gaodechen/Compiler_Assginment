@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Deterministic Finite Automaton
- * @LastEditTime: 2020-04-22 23:15:52
+ * @LastEditTime: 2020-05-12 10:20:19
  * @Date: 2020-04-18 17:20:34
  */
 
@@ -89,19 +89,19 @@ DFA::DFA()
 {
     InitTransMat();
     InitStatesTypes();
-    curState = NON_STATE;
+    m_curState = NON_STATE;
 }
 
 // Get current state
 DFAState DFA::GetCurState()
 {
-    return curState;
+    return m_curState;
 }
 
 // Get next state with character ch starting from curState
 DFAState DFA::GetNextState(const char &ch)
 {
-    return m_mat[curState][ch];
+    return m_mat[m_curState][int(ch)];
 }
 
 // Get type of given state
@@ -112,12 +112,12 @@ int DFA::GetStateType(const int &state)
 
 void DFA::SetState(const int &state)
 {
-    curState = state;
+    m_curState = state;
 }
 
 // Move to the next state with ch
 int DFA::GotoNextState(const char &ch)
 {
-    curState = m_mat[curState][ch];
-    return curState;
+    m_curState = m_mat[m_curState][int(ch)];
+    return m_curState;
 }
