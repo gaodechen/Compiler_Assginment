@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Symbol Structure
- * @LastEditTime: 2020-04-28 21:49:35
+ * @LastEditTime: 2020-05-12 21:45:30
  * @Date: 2020-04-25 21:18:06
  */
 
@@ -84,4 +84,5 @@ std::ostream &operator<<(std::ostream &out, Symbol &obj)
     out << obj.address;
     out << '|';
     out << std::endl;
+    return out;
 }

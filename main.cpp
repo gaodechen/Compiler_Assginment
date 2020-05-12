@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Entrance for PL/0 Compiler
- * @LastEditTime: 2020-05-12 10:26:29
+ * @LastEditTime: 2020-05-12 22:03:07
  * @Date: 2020-04-18 15:42:05
  */
 
@@ -15,36 +15,38 @@ int main(int argc, char **argv)
     bool exec = true;
     bool print_lex = false;
     bool print_ins = false;
-    std::string dir_path = "./test_data/";
-    std::string file_path = "PL0_code";
-    std::string file_ext = ".in";
+    std::string file_path = "";
 
     for (int idx = 1; idx < argc; idx++)
     {
         std::string arg(argv[idx]);
-        if (arg == "-f")
+        if (arg == "-e")
         {
-            file_path = std::string(argv[++idx]);
-        }
-        else if (arg == "-e")
-        {
-            exec = true;
+            // Do not execute
+            exec = false;
         }
         else if (arg == "-p")
         {
             std::string print_obj(argv[++idx]);
+            // Display lexical or instruction table
             print_lex = (print_obj == "lex");
             print_ins = (print_obj == "ins");
         }
         else
         {
-            file_path = file_path + arg;
+            // Given filepath
+            file_path = arg;
         }
     }
-    std::string full_path = dir_path + file_path + file_ext;
+
+    if (file_path == "")
+    {
+        GlobalErrors::CatchError(ILLEGAL_FILE_PATH);
+        return -1;
+    }
 
     Lexer lexer;
-    LexTable lex = lexer.Analyze(full_path);
+    LexTable lex = lexer.Analyze(file_path);
     Parser parser(&lex);
     InsTable ins = parser.Analyze();
 
