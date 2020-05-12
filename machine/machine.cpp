@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Interpreter
- * @LastEditTime: 2020-05-09 19:06:49
+ * @LastEditTime: 2020-05-12 18:03:24
  * @Date: 2020-05-02 10:22:49
  */
 
@@ -43,7 +43,7 @@ Machine::Machine(InsTable _m_ins_table)
     m_opt_func[READ_OP] = &Machine::_READ_OP;
 }
 
-int &Machine::GetData(int base, int level, int offset)
+int Machine::GetBase(int base, int level, int offset)
 {
     while (level)
     {
@@ -51,7 +51,13 @@ int &Machine::GetData(int base, int level, int offset)
         base = m_stack[base + STATIC_LINK_OFFSET];
         level--;
     }
-    return m_stack[base + offset];
+    return base + offset;
+}
+
+int &Machine::GetData(int base, int level, int offset)
+{
+    base = GetBase(base, level, offset);
+    return m_stack[base];
 }
 
 void Machine::Interpret()

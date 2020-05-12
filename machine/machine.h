@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Interpreter
- * @LastEditTime: 2020-05-12 10:26:41
+ * @LastEditTime: 2020-05-12 18:03:44
  * @Date: 2020-05-02 10:22:46
  */
 
@@ -73,6 +73,7 @@ private:
 
 public:
     Machine(InsTable _m_ins_table);
+    int GetBase(int base, int level, int offset);
     int &GetData(int base, int level, int offset);
     void Interpret();
 };

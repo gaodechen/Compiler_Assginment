@@ -1,48 +1,52 @@
-JMP 0 120
-INT 0 5
-LOD 1 3
-STO 0 3
-LOD 1 4
-STO 0 4
+JMP 0 124
+INT 0 5         proc multiply
+LOD 1 3         lod x
+STO 0 3         a = x
+LOD 1 4         lod y
+STO 0 4         b = y
 LOD 1 3
 LOD 1 4
 OPR 0 4
 STO 1 5
 OPR 0 0
-INT 0 4
-LOD 1 3
-STO 1 7
+INT 0 4         proc divide
+LOD 1 3         lod x
+STO 1 7         r = x (1, 7)
 LIT 0 0
-STO 1 6
-LOD 1 4
-STO 0 3
-LOD 1 3
+STO 1 6         q = 0 (1, 6)
+LOD 1 4         lod y
+STO 0 3         w = y (0, 3)
+LOD 1 3         lod x
 OPR 0 15
+OPR 0 14
 LIT 0 0
 OPR 0 15
+OPR 0 14
 LOD 1 4
 OPR 0 15
 OPR 0 14
 LOD 1 7
 OPR 0 15
+OPR 0 14
 LOD 1 6
 OPR 0 15
+OPR 0 14
 LOD 0 3
 OPR 0 15
 OPR 0 14
 LOD 0 3
 LOD 1 7
 OPR 0 6
-JPC 0 42
+JPC 0 46
 LIT 0 2
 LOD 0 3
 OPR 0 4
 STO 0 3
-JMP 0 33
+JMP 0 37
 LOD 0 3
 LOD 1 4
 OPR 0 10
-JPC 0 69
+JPC 0 73
 LIT 0 2
 LOD 1 6
 OPR 0 4
@@ -54,7 +58,7 @@ STO 0 3
 LOD 0 3
 LOD 1 7
 OPR 0 6
-JPC 0 68
+JPC 0 72
 LOD 1 7
 LIT 0 0
 OPR 0 3
@@ -65,7 +69,7 @@ LOD 1 6
 LIT 0 1
 OPR 0 2
 STO 1 6
-JMP 0 42
+JMP 0 46
 OPR 0 0
 INT 0 4
 LOD 1 3
@@ -75,11 +79,11 @@ STO 0 3
 LOD 1 9
 LOD 0 3
 OPR 0 9
-JPC 0 100
+JPC 0 104
 LOD 1 9
 LOD 0 3
 OPR 0 7
-JPC 0 89
+JPC 0 93
 LOD 0 3
 LIT 0 0
 OPR 0 3
@@ -89,14 +93,14 @@ STO 0 3
 LOD 0 3
 LOD 1 9
 OPR 0 7
-JPC 0 99
+JPC 0 103
 LOD 1 9
 LIT 0 0
 OPR 0 3
 LOD 0 3
 OPR 0 3
 STO 1 9
-JMP 0 75
+JMP 0 79
 LOD 1 9
 STO 1 5
 OPR 0 0
@@ -104,7 +108,7 @@ INT 0 3
 LOD 1 8
 LIT 0 1
 OPR 0 10
-JPC 0 119
+JPC 0 123
 LOD 1 8
 LOD 1 9
 OPR 0 4
@@ -115,22 +119,22 @@ OPR 0 3
 LIT 0 1
 OPR 0 3
 STO 1 8
-CAL 1 103
+CAL 1 107
 OPR 0 0
-INT 0 10
-OPR 0 16
-STO 0 3
-OPR 0 16
-STO 0 4
-CAL 0 2
-LOD 0 5
-OPR 0 15
+INT 0 10        main
+OPR 0 16        read x
+STO 0 3         store x
+OPR 0 16        read y
+STO 0 4         store y
+CAL 0 2         call multiply
+LOD 0 5         lod z
+OPR 0 15        write z
 OPR 0 14
 OPR 0 16
 STO 0 3
 OPR 0 16
 STO 0 4
-CAL 0 12
+CAL 0 12        call divide
 LOD 0 6
 OPR 0 15
 OPR 0 14
@@ -141,7 +145,7 @@ OPR 0 16
 STO 0 3
 OPR 0 16
 STO 0 4
-CAL 0 70
+CAL 0 74
 LOD 0 5
 OPR 0 15
 OPR 0 14
@@ -149,7 +153,7 @@ OPR 0 16
 STO 0 8
 LIT 0 1
 STO 0 9
-CAL 0 103
+CAL 0 107
 LOD 0 9
 OPR 0 15
 OPR 0 14
