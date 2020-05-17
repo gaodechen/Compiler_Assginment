@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Lexical item in table
- * @LastEditTime: 2020-05-12 10:30:55
+ * @LastEditTime: 2020-05-17 12:31:23
  * @Date: 2020-04-18 22:16:10
  */
 
@@ -26,6 +26,7 @@ public:
     LexItem(std::string &_token, int &_type);
 
     int GetType();
+    std::string GetStrType();
     std::string GetToken();
 
     void SetType(int _type);

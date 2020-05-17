@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Parser
- * @LastEditTime: 2020-05-03 23:43:01
+ * @LastEditTime: 2020-05-17 18:12:34
  * @Date: 2020-04-22 22:31:19
  */
 
@@ -30,19 +30,20 @@ void Parser::GetPrevSymbol()
     m_cur_line = m_lex_table->GetLineNum();
 }
 
-InsTable Parser::Analyze()
+InsTable Parser::Analyze(bool display_tree)
 {
     GetNextSymbol();
     Parse(0, 0);
-    // std::cout << m_ins_table;
-    // std::cout << m_sym_table;
-    // m_ast.Display();
+    if (display_tree)
+    {
+        m_ast.Display();
+    }
     return m_ins_table;
 }
 
 int Parser::Parse(int level, int index)
 {
-    m_ast.Forward(LexItem());
+    m_ast.Forward("process");
     int jmp_addr = m_ins_table.GetPC();
     int offset = 0;
     int num_vars = 0;
@@ -178,6 +179,7 @@ int Parser::DefTypeTest(int index, int req_type)
 
 int Parser::_const(int level, int index)
 {
+    m_ast.Forward("const");
     int offset = 0;
     // ident -> assign -> const
     Symbol symbol;
@@ -198,18 +200,18 @@ int Parser::_const(int level, int index)
         symbol.SetValue(Str2Int(m_cur_lex.GetToken()));
         // Insert symbol
         m_sym_table[index + offset++] = symbol;
-        m_ast.Forward(m_cur_lex);
-        m_ast.Backward();
         // Separate characters
         GetNextSymbol();
         SepChTest(VocabTypes::CH_COMMA, VocabTypes::CH_SEMI);
     } while (!IsType(VocabTypes::CH_SEMI));
     GetNextSymbol();
+    m_ast.Backward();
     return offset;
 }
 
 int Parser::_var(int level, int index)
 {
+    m_ast.Forward("var");
     int offset = 0;
     Symbol symbol;
     symbol.SetType(VocabTypes::VAR_DEF_TYPE);
@@ -224,19 +226,19 @@ int Parser::_var(int level, int index)
         symbol.SetToken(m_cur_lex.GetToken());
         // Insert symbol
         m_sym_table[index + offset++] = symbol;
-        m_ast.Forward(m_cur_lex);
-        m_ast.Backward();
         symbol.SetAddress(symbol.GetAddress() + 1);
         // Separate characters
         GetNextSymbol();
         SepChTest(VocabTypes::CH_COMMA, VocabTypes::CH_SEMI);
     } while (!IsType(VocabTypes::CH_SEMI));
     GetNextSymbol();
+    m_ast.Backward();
     return offset;
 }
 
 int Parser::_procedure(int level, int index)
 {
+    m_ast.Forward("procedure");
     int offset = 0;
     Symbol symbol;
     // Identifier
@@ -248,9 +250,6 @@ int Parser::_procedure(int level, int index)
     symbol.SetLevel(level - 1);
     symbol.SetAddress(m_ins_table.GetPC());
     m_sym_table[index + offset++] = symbol;
-
-    m_ast.Forward(m_cur_lex);
-
     // Filter semi within definition
     GetNextSymbol();
     TypeTest(VocabTypes::CH_SEMI);
@@ -260,14 +259,13 @@ int Parser::_procedure(int level, int index)
     // Filter semi in the end of procedure
     TypeTest(VocabTypes::CH_SEMI);
     GetNextSymbol();
-
     m_ast.Backward();
-
     return offset;
 }
 
 void Parser::_statement(int level, int index)
 {
+    m_ast.Forward("statement");
     switch (m_cur_lex.GetType())
     {
     case VocabTypes::CP_IF:
@@ -298,11 +296,12 @@ void Parser::_statement(int level, int index)
         _assign(level, index);
         break;
     }
+    m_ast.Backward();
 }
 
 void Parser::_if(int level, int index)
 {
-    m_ast.Forward(m_cur_lex);
+    m_ast.Forward("if");
     // condition
     _condition(level, index);
     int cpc = m_ins_table.GetPC();
@@ -318,7 +317,7 @@ void Parser::_if(int level, int index)
 
 void Parser::_while(int level, int index)
 {
-    m_ast.Forward(m_cur_lex);
+    m_ast.Forward("while");
     int cpc = m_ins_table.GetPC();
     // condition
     _condition(level, index);
@@ -335,7 +334,7 @@ void Parser::_while(int level, int index)
 
 void Parser::_call(int level, int index)
 {
-    m_ast.Forward(m_cur_lex);
+    m_ast.Forward("call");
     TypeTest(VocabTypes::IDENTIFIER_DATA_TYPE);
     int sym_index = DefTypeTest(index, VocabTypes::PROCEDURE_DEF_TYPE);
     int sym_level = m_sym_table[sym_index].GetLevel();
@@ -347,7 +346,7 @@ void Parser::_call(int level, int index)
 
 void Parser::_read(int level, int index)
 {
-    m_ast.Forward(m_cur_lex);
+    m_ast.Forward("read");
     // Filter left paren
     TypeTest(VocabTypes::CH_LPAREN);
     while (!IsType(VocabTypes::CH_RPAREN))
@@ -368,7 +367,7 @@ void Parser::_read(int level, int index)
 
 void Parser::_write(int level, int index)
 {
-    m_ast.Forward(m_cur_lex);
+    m_ast.Forward("write");
     // Filter left paren
     TypeTest(VocabTypes::CH_LPAREN);
     while (!IsType(VocabTypes::CH_RPAREN))
@@ -385,7 +384,7 @@ void Parser::_write(int level, int index)
 
 void Parser::_assign(int level, int index)
 {
-    m_ast.Forward(m_cur_lex);
+    m_ast.Forward("assign");
     int sym_index = DefTypeTest(index, VocabTypes::VAR_DEF_TYPE);
     int sym_level = m_sym_table[sym_index].GetLevel();
     int sym_address = m_sym_table[sym_index].GetAddress();
@@ -401,7 +400,7 @@ void Parser::_assign(int level, int index)
 
 void Parser::_begin(int level, int index)
 {
-    m_ast.Forward(m_cur_lex);
+    m_ast.Forward("begin");
     _statement(level, index);
     while (IsType(VocabTypes::CH_SEMI))
     {
@@ -415,7 +414,7 @@ void Parser::_begin(int level, int index)
 
 void Parser::_expression(int level, int index)
 {
-    m_ast.Forward(m_cur_lex);
+    m_ast.Forward("expression");
     if (IsType(VocabTypes::AOP_PLUS) || IsType(VocabTypes::AOP_MINUS))
     {
         GetNextSymbol();
@@ -448,11 +447,14 @@ void Parser::_expression(int level, int index)
 
 void Parser::_factor(int level, int index)
 {
-    m_ast.Forward(m_cur_lex);
+    m_ast.Forward("factor");
     _term(level, index);
     int tmp_type = m_cur_lex.GetType();
     if (!IsType(VocabTypes::AOP_TIMES) && !IsType(VocabTypes::AOP_SLASH))
+    {
+        m_ast.Backward();
         return;
+    }
     do
     {
         GetNextSymbol();
@@ -472,7 +474,7 @@ void Parser::_factor(int level, int index)
 
 void Parser::_term(int level, int index)
 {
-    m_ast.Forward(m_cur_lex);
+    m_ast.Forward("term");
     if (IsType(VocabTypes::IDENTIFIER_DATA_TYPE))
     {
         int found_index = m_sym_table.Find(m_cur_lex.GetToken(), 0, index);
@@ -521,7 +523,7 @@ void Parser::_term(int level, int index)
 
 void Parser::_condition(int level, int index)
 {
-    m_ast.Forward(m_cur_lex);
+    m_ast.Forward("condition");
     if (IsType(VocabTypes::F_ODD))
     {
         // Check if odd or even

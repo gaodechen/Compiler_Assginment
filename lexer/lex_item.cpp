@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Item in Lex
- * @LastEditTime: 2020-05-12 10:20:27
+ * @LastEditTime: 2020-05-17 12:32:25
  * @Date: 2020-04-18 22:16:13
  */
 
@@ -20,14 +20,20 @@ LexItem::LexItem(std::string &_token, int &_type)
     m_type = _type;
 }
 
+std::string LexItem::GetStrType()
+{
+    if (m_type >= 0)
+    {
+        return VocabTypes::vocab_types[m_type];
+    }
+    return "";
+}
+
 std::ostream &operator<<(std::ostream &out, LexItem &obj)
 {
     out << "<";
     out.width(10);
-    if (obj.m_type >= 0)
-    {
-        out << VocabTypes::vocab_types[obj.m_type];
-    }
+    out << obj.GetStrType();
     out << ",";
     out.width(12);
     out << obj.m_token;

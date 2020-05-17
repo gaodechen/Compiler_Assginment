@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Lexical Analysis for PL/0
- * @LastEditTime: 2020-04-28 21:32:48
+ * @LastEditTime: 2020-05-17 12:01:48
  * @Date: 2020-04-15 23:02:24
  */
 
@@ -12,10 +12,6 @@
 
 #ifndef INC_COMPILE_ERRORS
 #include "../common/compile_errors.h"
-#endif
-
-#ifndef INC_VOCAB
-#include "../lexer/vocab.h"
 #endif
 
 Lexer::Lexer()

@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Parser
- * @LastEditTime: 2020-05-03 21:51:07
+ * @LastEditTime: 2020-05-17 12:05:28
  * @Date: 2020-04-22 22:31:22
  */
 
@@ -76,5 +76,5 @@ private:
 
 public:
     Parser(LexTable *_m_lex_table);
-    InsTable Analyze();
+    InsTable Analyze(bool display_tree = false);
 };

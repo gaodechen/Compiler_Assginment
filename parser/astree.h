@@ -2,7 +2,7 @@
  * @Author: Gao Dechen
  * @LastEditors: Gao Dechen
  * @Description: Abstract Syntax Tree
- * @LastEditTime: 2020-04-28 21:09:23
+ * @LastEditTime: 2020-05-17 12:43:55
  * @Date: 2020-04-28 09:10:20
  */
 
@@ -38,9 +38,11 @@ class ASTree
 private:
     ASTreeNode *m_root;
     ASTreeNode *m_cur_node;
+    std::string m_str_tree;
 public:
     ASTree();
     void Forward(LexItem value);
+    void Forward(std::string value);
     void Backward();
     void Display();
     void DFS(ASTreeNode *cur_node);
