@@ -11,14 +11,14 @@
 #include "../lexer/dfa.h"
 #endif
 
-void DFA::FillStatesTypes(const int *states, int len, int type)
+void DFA::SetStateTypes(const int *states, int len, int type)
 {
     for (int i = 0; i < len; i++)
         m_states_types[states[i]] = type;
 }
 
 // fill states for ASCII characters
-void DFA::FillTransState(DFAState src_state, DFAState dst_state)
+void DFA::SetMat(DFAState src_state, DFAState dst_state)
 {
     for (int i = 0; i < DFA_VOCAB_SIZE; i++)
     {
@@ -27,7 +27,7 @@ void DFA::FillTransState(DFAState src_state, DFAState dst_state)
 }
 
 // fill states for characters in ch_table
-void DFA::FillTransState(DFAState src_state, DFAState dst_state, const char *ch_table)
+void DFA::SetMat(DFAState src_state, DFAState dst_state, const char *ch_table)
 {
     int len = strlen(ch_table);
     for (int i = 0; i < len; i++)
@@ -37,57 +37,57 @@ void DFA::FillTransState(DFAState src_state, DFAState dst_state, const char *ch_
 }
 
 // fill states for ch only
-void DFA::FillTransState(DFAState src_state, DFAState dst_state, const char &ch)
+void DFA::SetMat(DFAState src_state, DFAState dst_state, const char &ch)
 {
     m_mat[src_state][(int) ch] = dst_state;
 }
 
-void DFA::InitTransMat()
+void DFA::InitMat()
 {
     std::fill(m_mat[0], m_mat[0] + DFA_NUM_STATES * DFA_VOCAB_SIZE, ILLEGAL_STATE);
     // State 0
-    FillTransState(0, 0, filter_ch);
-    FillTransState(0, 1, lower_ch);
-    FillTransState(0, 1, upper_ch);
-    FillTransState(0, 3, number_ch);
+    SetMat(0, 0, filter_ch);
+    SetMat(0, 1, lower_ch);
+    SetMat(0, 1, upper_ch);
+    SetMat(0, 3, number_ch);
     for (int i = 5; i < 18; i++)
-        FillTransState(0, i, operator_ch[i - 5]);
+        SetMat(0, i, operator_ch[i - 5]);
 
     // State 1
-    FillTransState(1, 2);
-    FillTransState(1, 1, lower_ch);
-    FillTransState(1, 1, upper_ch);
-    FillTransState(1, 1, number_ch);
+    SetMat(1, 2);
+    SetMat(1, 1, lower_ch);
+    SetMat(1, 1, upper_ch);
+    SetMat(1, 1, number_ch);
 
     // State 3
-    FillTransState(3, 4);
-    FillTransState(3, 3, number_ch);
+    SetMat(3, 4);
+    SetMat(3, 3, number_ch);
 
     // State 10
-    FillTransState(10, 20);
-    FillTransState(10, 18, '>');
-    FillTransState(10, 19, '=');
+    SetMat(10, 20);
+    SetMat(10, 18, '>');
+    SetMat(10, 19, '=');
 
     // State 11
-    FillTransState(11, 22);
-    FillTransState(11, 21, '=');
+    SetMat(11, 22);
+    SetMat(11, 21, '=');
 
     // State 12
-    FillTransState(12, 23, '=');
+    SetMat(12, 23, '=');
 }
 
 // Initialize types of states
 void DFA::InitStatesTypes()
 {
-    FillStatesTypes(terminal_states, sizeof(terminal_states) / sizeof(int), TERMINAL_STATE);
-    FillStatesTypes(non_terminal_states, sizeof(non_terminal_states) / sizeof(int), NON_TERMINAL_STATE);
-    FillStatesTypes(backtrace_states, sizeof(backtrace_states) / sizeof(int), BACKTRACE_STATE);
+    SetStateTypes(terminal_states, sizeof(terminal_states) / sizeof(int), TERMINAL_STATE);
+    SetStateTypes(non_terminal_states, sizeof(non_terminal_states) / sizeof(int), NON_TERMINAL_STATE);
+    SetStateTypes(backtrace_states, sizeof(backtrace_states) / sizeof(int), BACKTRACE_STATE);
 }
 
 // Initialize DFA
 DFA::DFA()
 {
-    InitTransMat();
+    InitMat();
     InitStatesTypes();
     m_curState = NON_STATE;
 }

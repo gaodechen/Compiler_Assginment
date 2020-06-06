@@ -41,16 +41,16 @@ private:
     // Current state of DFA
     DFAState m_curState;
 
-    void FillStatesTypes(const int *states, int len, int type);
+    void SetStateTypes(const int *states, int len, int type);
     // fill states for ASCII characters
-    void FillTransState(DFAState src_state, DFAState dst_state);
+    void SetMat(DFAState src_state, DFAState dst_state);
     // fill states for characters in ch_table
-    void FillTransState(DFAState src_state, DFAState dst_state, const char *ch_table);
+    void SetMat(DFAState src_state, DFAState dst_state, const char *ch_table);
     // fill states for ch only
-    void FillTransState(DFAState src_state, DFAState dst_state, const char &ch);
+    void SetMat(DFAState src_state, DFAState dst_state, const char &ch);
 
     // Initialize transition matrix
-    void InitTransMat();
+    void InitMat();
 
     // Initialize states types
     void InitStatesTypes();

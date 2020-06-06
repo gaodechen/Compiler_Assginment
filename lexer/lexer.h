@@ -36,7 +36,7 @@
 class Lexer
 {
 private:
-    // Map vocabulary words to SymToken(sym_type, string)
+    // Map vocabulary words to symbol
     Vocab *vocab;
 
     // Map token to type
